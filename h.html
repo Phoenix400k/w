@@ -3,61 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشغل الفيديو المباشر</title>
+    <title>مشغل ماي سيما</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        /* تصميم الصفحة لتكون سوداء بالكامل والمشغل في المنتصف */
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            background-color: #000;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: sans-serif;
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            background-color: #000; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
         }
-
-        .video-container {
-            width: 100%;
-            max-width: 1000px; /* يمكنك تكبير أو تصغير العرض من هنا */
-            height: 80vh; /* طول المشغل 80% من مساحة الشاشة */
-            background: #111;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
-            position: relative;
+        .video-container { width: 100%; height: 100%; }
+        /* تنسيق أزرار التخطي (Skip Buttons) */
+        .skip-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 10; cursor: pointer; color: #fff;
+            display: none; transition: opacity 0.3s;
         }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 10px;
-        }
-
-        .info-text {
-            color: #555;
-            margin-top: 15px;
-            font-size: 14px;
-        }
+        .skip-btn.show { display: block; }
+        .skip-btn.left { left: 20px; }
+        .skip-btn.right { right: 20px; }
+        .icon-bg svg { width: 40px; fill: #fff; }
     </style>
 </head>
-<body>
+<body bis_status="ok">
 
-    <div class="video-container">
-        <iframe 
-            src="https://mycima-my.com/?secure_stream=eJzLKCkpKLbS18_JzMvWy61MzsxN1Esu0zc1SjM2TbU0NTK1SDZJtUwyMjUwTjUzMjIzMzZINbJIAQD3fRBn.2a04c6c48ce854b5" 
-            allowfullscreen="true" 
-            webkitallowfullscreen="true" 
-            mozallowfullscreen="true" 
-            allow="autoplay; fullscreen; picture-in-picture">
-        </iframe>
+    <div id="sprite-plyr" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <symbol id="plyr-play" viewBox="0 0 18 18"><path d="M15.562 8.1L3.87.225c-.818-.562-1.87 0-1.87.9v15.75c0 .9 1.052 1.462 1.87.9L15.563 9.9c.584-.45.584-1.35 0-1.8z"></path></symbol>
+            </svg>
     </div>
 
-    <div class="info-text">
-        جاري عرض الفيديو من السيرفر المباشر...
+    <div id="loading-message" style="color:white; position:absolute;">انتظر، جاري التحميل...</div>
+
+    <div id="video-wrapper" class="video-container">
+        <video id="player" playsinline preload="auto">
+            <source src="https://link.mycima.cv/52f35e95258c4e9b2503e6226630e28d" type="video/mp4">
+        </video>
     </div>
 
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script>
+        const video = document.getElementById('player');
+        
+        // تشغيل مكتبة Plyr بنفس إعداداتهم
+        const player = new Plyr(video, {
+            ratio: '16:9',
+            fullscreen: { enabled: true, fallback: true },
+            controls: ['play-large', 'rewind', 'play', 'fast-forward', 'progress', 'current-time', 'duration', 'volume', 'settings', 'fullscreen'],
+            settings: ['quality', 'speed']
+        });
+
+        player.on('ready', () => {
+            document.getElementById('loading-message').style.display = 'none';
+        });
+
+        // تفعيل أزرار التقديم والتأخير 10 ثواني عند الضغط
+        player.on('play', () => {
+            // هنا يمكنك إضافة أكشن إضافي إذا أردت
+        });
+    </script>
 </body>
 </html>
