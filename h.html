@@ -3,38 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشغل ماي سيما</title>
+    <title>مشغل فيديو مرتب</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
-            background-color: #000; overflow: hidden;
+            background-color: #1a1a1a; /* لون خلفية مريح للعين */
             display: flex; justify-content: center; align-items: center;
+            font-family: sans-serif;
         }
-        .video-container { width: 100%; height: 100%; }
-        /* تنسيق أزرار التخطي (Skip Buttons) */
-        .skip-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            z-index: 10; cursor: pointer; color: #fff;
-            display: none; transition: opacity 0.3s;
+
+        /* هنا السر: حددنا مقاس الحاوية */
+        .video-container { 
+            width: 90%;          /* العرض على الجوال */
+            max-width: 800px;    /* أقصى عرض على الكمبيوتر */
+            border-radius: 12px; /* زوايا منحنية عشان الشكل */
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* ظل للفيديو */
+            background: #000;
         }
-        .skip-btn.show { display: block; }
-        .skip-btn.left { left: 20px; }
-        .skip-btn.right { right: 20px; }
-        .icon-bg svg { width: 40px; fill: #fff; }
+
+        /* تنسيق رسالة التحميل */
+        #loading-message {
+            color: #fff;
+            font-size: 14px;
+            position: absolute;
+            z-index: 5;
+        }
     </style>
 </head>
-<body bis_status="ok">
+<body>
 
-    <div id="sprite-plyr" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg">
-            <symbol id="plyr-play" viewBox="0 0 18 18"><path d="M15.562 8.1L3.87.225c-.818-.562-1.87 0-1.87.9v15.75c0 .9 1.052 1.462 1.87.9L15.563 9.9c.584-.45.584-1.35 0-1.8z"></path></symbol>
-            </svg>
-    </div>
+    <div id="loading-message">جاري تجهيز المشغل...</div>
 
-    <div id="loading-message" style="color:white; position:absolute;">انتظر، جاري التحميل...</div>
-
-    <div id="video-wrapper" class="video-container">
+    <div class="video-container" id="video-wrapper" style="display: none;">
         <video id="player" playsinline preload="auto">
             <source src="https://link.mycima.cv/52f35e95258c4e9b2503e6226630e28d" type="video/mp4">
         </video>
@@ -44,21 +46,28 @@
     <script>
         const video = document.getElementById('player');
         
-        // تشغيل مكتبة Plyr بنفس إعداداتهم
+        // إعدادات المشغل
         const player = new Plyr(video, {
             ratio: '16:9',
-            fullscreen: { enabled: true, fallback: true },
-            controls: ['play-large', 'rewind', 'play', 'fast-forward', 'progress', 'current-time', 'duration', 'volume', 'settings', 'fullscreen'],
-            settings: ['quality', 'speed']
+            fullscreen: { enabled: true, fallback: true, iosNative: true },
+            controls: [
+                'play-large', 
+                'play', 
+                'progress', 
+                'current-time', 
+                'mute', 
+                'volume', 
+                'settings', 
+                'fullscreen' // زر التكبير موجود هنا
+            ],
+            settings: ['quality', 'speed'],
+            tooltips: { controls: true, seek: true }
         });
 
+        // إظهار المشغل بعد الجاهزية
         player.on('ready', () => {
             document.getElementById('loading-message').style.display = 'none';
-        });
-
-        // تفعيل أزرار التقديم والتأخير 10 ثواني عند الضغط
-        player.on('play', () => {
-            // هنا يمكنك إضافة أكشن إضافي إذا أردت
+            document.getElementById('video-wrapper').style.display = 'block';
         });
     </script>
 </body>
