@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة أفلامي الشخصية</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-content">
+            <button onclick="showSection('home')">🏠 الرئيسية</button>
+            <button onclick="showSection('admin')" class="admin-tab">⚙️ لوحة التحكم</button>
+        </div>
+    </nav>
+
+    <div id="videoPlayerContainer" class="video-overlay" style="display:none;">
+        <div class="player-box">
+            <button class="close-player" onclick="closePlayer()">إغلاق المشغل ✕</button>
+            <iframe id="videoFrame" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <section id="home" class="section">
+        <h1 class="title">مكتبة الأفلام</h1>
+        <div id="moviesContainer" class="movies-grid">
+            </div>
+    </section>
+
+    <section id="admin" class="section" style="display:none;">
+        <h1 class="title">إدارة المحتوى</h1>
+        <div class="admin-controls">
+            <button class="add-btn-main" onclick="openModal()">+ إضافة فيلم جديد</button>
+        </div>
+        <div id="adminList" class="admin-list">
+            </div>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة فيديو جديد</h3>
+            <input type="text" id="videoName" placeholder="اسم الفيلم">
+            <input type="text" id="videoUrl" placeholder="رابط الفيديو (URL)">
+            <p style="font-size: 12px; color: #aaa;">* ملاحظة: تأكد أن الرابط يدعم التضمين (Embed).</p>
+            <div class="modal-actions">
+                <button onclick="saveVideo()" class="save-btn">حفظ</button>
+                <button onclick="closeModal()" class="cancel-btn">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
