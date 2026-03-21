@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشغل فيديو مؤقت - خالد</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* حاوية المشغل بتصميم عصري */
+        .video-container {
+            width: 90%;
+            max-width: 850px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info h1 { color: #e50914; margin: 0; font-size: 24px; }
+        .info p { color: #888; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="info">
+        <h1>سينما خالد 🎥</h1>
+        <p>ملاحظة: رابط الـ Blob يعمل مؤقتاً على جهازك الحالي فقط.</p>
+    </div>
+
+    <div class="video-container">
+        <video id="player" playsinline controls>
+            <source src="blob:https://hanerix.com/fa722339-258a-4a7a-9214-95fba9f8e7b5" type="video/mp4">
+        </video>
+    </div>
+
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script>
+        // تشغيل مكتبة Plyr
+        const player = new Plyr('#player', {
+            ratio: '16:9',
+            controls: [
+                'play-large', 'play', 'progress', 'current-time', 
+                'mute', 'volume', 'settings', 'fullscreen'
+            ],
+            settings: ['quality', 'speed']
+        });
+
+        // تنبيه في حال انتهت صلاحية الرابط
+        document.getElementById('player').onerror = function() {
+            alert("يا خالد، رابط الـ Blob انتهت صلاحيته أو غير صالح للجلسة الحالية. لازم تجيب رابط جديد!");
+        };
+    </script>
+</body>
+</html>
